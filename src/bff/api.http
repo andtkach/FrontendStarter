@@ -1,0 +1,6 @@
+@API_HostAddress = http://localhost:7011
+
+GET {{API_HostAddress}}/api/info/bff-info
+Accept: application/json
+
+###
