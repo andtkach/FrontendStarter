@@ -1,0 +1,624 @@
+{
+	"info": {
+		"_postman_id": "fee4b47f-ebec-4468-a45b-b32a6b54aeff",
+		"name": "Jiwebapi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12174279"
+	},
+	"item": [
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 and have user\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"user-id\", jsonData.id);\r",
+									"    pm.collectionVariables.set(\"user-token\", jsonData.token);\r",
+									"    pm.collectionVariables.set(\"user-email\", jsonData.email);\r",
+									"    pm.collectionVariables.set(\"user-cache-id\", jsonData.cacheId);    \r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"andrii@email.com\",\r\n  \"password\": \"F1veL!fe\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{attraction-api-url}}/account/authenticate",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"account",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 and have user\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"user-id\", jsonData.id);\r",
+									"    pm.collectionVariables.set(\"user-token\", jsonData.token);\r",
+									"    pm.collectionVariables.set(\"user-email\", jsonData.email);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cacheId\": \"{{user-cache-id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{attraction-api-url}}/account/check",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"account",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"{{$randomFirstName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"userName\": \"{{$randomUserName}}\",\r\n  \"password\": \"P@ssw0rd!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{attraction-api-url}}/account/register",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"account",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Get all categories",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{attraction-api-url}}/category/all?pageNumber=1&pageSize=5",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"category",
+								"all"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all with events",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{attraction-api-url}}/category/allwithevents?pageNumber=1&pageSize=3",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"category",
+								"allwithevents"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{attraction-api-url}}/category/{{latest-category-id}}",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"category",
+								"{{latest-category-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create category",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 and have user\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"latest-category-id\", jsonData.category.categoryId);    \r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the Authorization header generated by Postman.",
+								"key": "Authorization",
+								"value": "Bearer {{user-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomCatchPhrase}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{attraction-api-url}}/category",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update category",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoryId\": \"{{latest-category-id}}\",\r\n    \"name\": \"{{$randomCatchPhrase}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{attraction-api-url}}/category",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detele by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{attraction-api-url}}/category/{{latest-category-id}}",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"category",
+								"{{latest-category-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Event",
+			"item": [
+				{
+					"name": "Get all events",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{attraction-api-url}}/events?pageNumber=3&pageSize=5",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"events"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "3"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get event by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{attraction-api-url}}/events/{{latest-event-id}}",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"events",
+								"{{latest-event-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create event",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 and have user\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"latest-event-id\", jsonData.event.eventId);    \r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomCity}}\",\r\n    \"price\": {{$randomInt}},\r\n    \"artist\": \"{{$randomFullName}}\",\r\n    \"date\": \"2023-12-21T15:05:03.000Z\",\r\n    \"description\": \"{{$randomLoremSentence}}\",\r\n    \"imageUrl\": \"{{$randomImageUrl}}\",\r\n    \"categoryId\": \"{{latest-category-id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{attraction-api-url}}/events",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update event",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"eventId\": \"{{latest-event-id}}\",\r\n    \"name\": \"{{$randomCatchPhrase}}\",\r\n    \"price\": {{$randomInt}},\r\n    \"artist\": \"{{$randomCity}}\",\r\n    \"date\": \"2023-01-12T16:17:57.0067142\",\r\n    \"description\": \"{{$randomLoremSentence}}\",\r\n    \"imageUrl\": \"{{$randomImageUrl}}\",\r\n    \"categoryId\": \"{{latest-category-id}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{attraction-api-url}}/events",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete event by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{user-token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{attraction-api-url}}/events/{{latest-event-id}}",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"events",
+								"{{latest-event-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Info",
+			"item": [
+				{
+					"name": "Get info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{attraction-api-url}}/info",
+							"host": [
+								"{{attraction-api-url}}"
+							],
+							"path": [
+								"info"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "attraction-api-url",
+			"value": "http://localhost:7020/api",
+			"type": "string"
+		},
+		{
+			"key": "user-id",
+			"value": ""
+		},
+		{
+			"key": "user-token",
+			"value": ""
+		},
+		{
+			"key": "user-email",
+			"value": ""
+		},
+		{
+			"key": "latest-category-id",
+			"value": ""
+		},
+		{
+			"key": "latest-event-id",
+			"value": ""
+		},
+		{
+			"key": "user-cache-id",
+			"value": ""
+		}
+	]
+}
