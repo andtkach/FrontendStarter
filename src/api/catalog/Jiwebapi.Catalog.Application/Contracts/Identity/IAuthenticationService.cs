@@ -6,5 +6,6 @@ namespace Jiwebapi.Catalog.Application.Contracts.Identity
     {
         Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request);
         Task<RegistrationResponse> RegisterAsync(RegistrationRequest request);
+        Task<RefreshResponse> RefreshAsync(RefreshRequest request);
     }
 }

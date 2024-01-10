@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PeopleAPI.Commands;
 using PeopleAPI.Models;
@@ -8,6 +9,7 @@ namespace PeopleAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PeopleController : ControllerBase
     {
         private readonly IMediator _mediator;

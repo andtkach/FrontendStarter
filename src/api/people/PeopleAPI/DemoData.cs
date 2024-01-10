@@ -1,4 +1,4 @@
-﻿namespace BFF.Data
+﻿namespace PeopleAPI
 {
     public class DemoData
     {

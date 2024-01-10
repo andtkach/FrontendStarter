@@ -1,21 +1,34 @@
 using System.Text;
-using api.Data;
 using API.Data;
-using API.Entities;
 using API.Middleware;
 using API.RequestHelpers;
-using API.Services;
+using BFF.Data;
+using BFF.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using BFF.Services.Auth;
+using BFF.Services.Category;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddHttpClient<IAuthService, AuthService>(
+    (provider, client) => {
+        client.BaseAddress = new Uri(provider.GetService<IConfiguration>()?["ApiConfigs:Auth:Uri"] ?? throw new InvalidOperationException("Missing auth config"));
+    });
+
+builder.Services.AddHttpClient<ICategoryService, CategoryService>(
+    (provider, client) => {
+        client.BaseAddress = new Uri(provider.GetService<IConfiguration>()?["ApiConfigs:Category:Uri"] ?? throw new InvalidOperationException("Missing category config"));
+    });
+
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -87,7 +100,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 builder.Services.AddAuthorization();
-builder.Services.AddScoped<TokenService>();
 
 var app = builder.Build();
 
@@ -120,5 +132,15 @@ app.MapFallbackToController("Index", "Fallback");
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<DataContext>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+try
+{
+    context.Database.Migrate();
+    await DbInitializer.Initialize(context);
+}
+catch (Exception ex)
+{
+    logger.LogError(ex, "A problem occurred during migration");
+}
 
 app.Run();

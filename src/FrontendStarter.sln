@@ -3,20 +3,102 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{BAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api", "bff\api.csproj", "{AE52029C-4C8B-4B76-BAEC-ECBB62222849}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BFF", "bff\BFF.csproj", "{AE52029C-4C8B-4B76-BAEC-ECBB62222849}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{E918DA9C-6E86-4CC0-8D33-A97E54430E2C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "external", "external", "{0C2D0E53-E599-4243-9506-FAFE506F9B3F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeopleAPI", "api\people\PeopleAPI\PeopleAPI.csproj", "{00D44975-F578-4ACF-AF10-8A94F266A6B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "People", "People", "{014BEF06-77BD-4CD0-88F6-61271D4F674F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{4F03CCE8-9D15-4526-948E-F37D1B0C4290}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jiwebapi.Catalog.Api", "api\catalog\Jiwebapi.Catalog.Api\Jiwebapi.Catalog.Api.csproj", "{0E39E5BB-0566-4A5A-8F71-4121C0F44E35}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jiwebapi.Catalog.Application", "api\catalog\Jiwebapi.Catalog.Application\Jiwebapi.Catalog.Application.csproj", "{BB8C25C3-A962-4E8B-BB74-476529FEF9A0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jiwebapi.Catalog.Cache", "api\catalog\Jiwebapi.Catalog.Cache\Jiwebapi.Catalog.Cache.csproj", "{E7B8DBB7-373D-406D-B49B-99BADCA474F6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jiwebapi.Catalog.Domain", "api\catalog\Jiwebapi.Catalog.Domain\Jiwebapi.Catalog.Domain.csproj", "{678C2B53-C37E-4039-BEEE-8C36832DCB3F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jiwebapi.Catalog.History", "api\catalog\Jiwebapi.Catalog.History\Jiwebapi.Catalog.History.csproj", "{820B9511-3A45-4C26-9DA0-6A1EFAB62568}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jiwebapi.Catalog.Identity", "api\catalog\Jiwebapi.Catalog.Identity\Jiwebapi.Catalog.Identity.csproj", "{6B71BC09-57B6-44B5-9BE4-A85B2597F21D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jiwebapi.Catalog.Message", "api\catalog\Jiwebapi.Catalog.Message\Jiwebapi.Catalog.Message.csproj", "{F9C779BC-5486-4B7E-B4EE-47960EF3DD48}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jiwebapi.Catalog.Persistence", "api\catalog\Jiwebapi.Catalog.Persistence\Jiwebapi.Catalog.Persistence.csproj", "{FA0BC5C8-FF4D-45B9-A4C2-39A90EF21D83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{AE52029C-4C8B-4B76-BAEC-ECBB62222849}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AE52029C-4C8B-4B76-BAEC-ECBB62222849}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE52029C-4C8B-4B76-BAEC-ECBB62222849}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE52029C-4C8B-4B76-BAEC-ECBB62222849}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E918DA9C-6E86-4CC0-8D33-A97E54430E2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E918DA9C-6E86-4CC0-8D33-A97E54430E2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E918DA9C-6E86-4CC0-8D33-A97E54430E2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E918DA9C-6E86-4CC0-8D33-A97E54430E2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00D44975-F578-4ACF-AF10-8A94F266A6B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00D44975-F578-4ACF-AF10-8A94F266A6B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00D44975-F578-4ACF-AF10-8A94F266A6B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00D44975-F578-4ACF-AF10-8A94F266A6B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E39E5BB-0566-4A5A-8F71-4121C0F44E35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E39E5BB-0566-4A5A-8F71-4121C0F44E35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E39E5BB-0566-4A5A-8F71-4121C0F44E35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E39E5BB-0566-4A5A-8F71-4121C0F44E35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB8C25C3-A962-4E8B-BB74-476529FEF9A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB8C25C3-A962-4E8B-BB74-476529FEF9A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB8C25C3-A962-4E8B-BB74-476529FEF9A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB8C25C3-A962-4E8B-BB74-476529FEF9A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7B8DBB7-373D-406D-B49B-99BADCA474F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7B8DBB7-373D-406D-B49B-99BADCA474F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7B8DBB7-373D-406D-B49B-99BADCA474F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7B8DBB7-373D-406D-B49B-99BADCA474F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{678C2B53-C37E-4039-BEEE-8C36832DCB3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{678C2B53-C37E-4039-BEEE-8C36832DCB3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{678C2B53-C37E-4039-BEEE-8C36832DCB3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{678C2B53-C37E-4039-BEEE-8C36832DCB3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{820B9511-3A45-4C26-9DA0-6A1EFAB62568}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{820B9511-3A45-4C26-9DA0-6A1EFAB62568}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{820B9511-3A45-4C26-9DA0-6A1EFAB62568}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{820B9511-3A45-4C26-9DA0-6A1EFAB62568}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B71BC09-57B6-44B5-9BE4-A85B2597F21D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B71BC09-57B6-44B5-9BE4-A85B2597F21D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B71BC09-57B6-44B5-9BE4-A85B2597F21D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B71BC09-57B6-44B5-9BE4-A85B2597F21D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9C779BC-5486-4B7E-B4EE-47960EF3DD48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9C779BC-5486-4B7E-B4EE-47960EF3DD48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9C779BC-5486-4B7E-B4EE-47960EF3DD48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9C779BC-5486-4B7E-B4EE-47960EF3DD48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA0BC5C8-FF4D-45B9-A4C2-39A90EF21D83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA0BC5C8-FF4D-45B9-A4C2-39A90EF21D83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA0BC5C8-FF4D-45B9-A4C2-39A90EF21D83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA0BC5C8-FF4D-45B9-A4C2-39A90EF21D83}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{00D44975-F578-4ACF-AF10-8A94F266A6B7} = {014BEF06-77BD-4CD0-88F6-61271D4F674F}
+		{014BEF06-77BD-4CD0-88F6-61271D4F674F} = {0C2D0E53-E599-4243-9506-FAFE506F9B3F}
+		{4F03CCE8-9D15-4526-948E-F37D1B0C4290} = {0C2D0E53-E599-4243-9506-FAFE506F9B3F}
+		{0E39E5BB-0566-4A5A-8F71-4121C0F44E35} = {4F03CCE8-9D15-4526-948E-F37D1B0C4290}
+		{BB8C25C3-A962-4E8B-BB74-476529FEF9A0} = {4F03CCE8-9D15-4526-948E-F37D1B0C4290}
+		{E7B8DBB7-373D-406D-B49B-99BADCA474F6} = {4F03CCE8-9D15-4526-948E-F37D1B0C4290}
+		{678C2B53-C37E-4039-BEEE-8C36832DCB3F} = {4F03CCE8-9D15-4526-948E-F37D1B0C4290}
+		{820B9511-3A45-4C26-9DA0-6A1EFAB62568} = {4F03CCE8-9D15-4526-948E-F37D1B0C4290}
+		{6B71BC09-57B6-44B5-9BE4-A85B2597F21D} = {4F03CCE8-9D15-4526-948E-F37D1B0C4290}
+		{F9C779BC-5486-4B7E-B4EE-47960EF3DD48} = {4F03CCE8-9D15-4526-948E-F37D1B0C4290}
+		{FA0BC5C8-FF4D-45B9-A4C2-39A90EF21D83} = {4F03CCE8-9D15-4526-948E-F37D1B0C4290}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9C321FB9-A4A2-42EA-8BE9-D8A9E57D93A6}
 	EndGlobalSection
 EndGlobal

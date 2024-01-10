@@ -1,13 +1,12 @@
 ﻿using System.Security.Claims;
-using Jiwebapi.Catalog.Application.Contracts;
 
-namespace Jiwebapi.Catalog.Api.Services
+namespace BFF.Services
 {
-    public class LoggedInUserService : ILoggedInUserService
+    public class CurrentUserService: ICurrentUserService
     {
         private readonly IHttpContextAccessor _contextAccessor;
-        
-        public LoggedInUserService(IHttpContextAccessor httpContextAccessor)
+
+        public CurrentUserService(IHttpContextAccessor httpContextAccessor)
         {
             _contextAccessor = httpContextAccessor;
         }
@@ -30,19 +29,20 @@ namespace Jiwebapi.Catalog.Api.Services
             }
         }
 
-        public string DataTraceId
+        public string Token
         {
             get
             {
-                var context = _contextAccessor.HttpContext;
-                if (context != null && context.Items.TryGetValue("DataTraceId", out var item))
+                if (_contextAccessor.HttpContext != null)
                 {
-                    var dataTraceId = item?.ToString();
-                    return dataTraceId ?? string.Empty;
+                    _contextAccessor.HttpContext.Request.Headers.TryGetValue("Authorization", out var token);
+                    if (!string.IsNullOrEmpty(token))
+                    {
+                        return token.ToString().Split(" ")[1];
+                    }
                 }
 
-                return string.Empty; 
-                
+                return string.Empty;
             }
         }
     }

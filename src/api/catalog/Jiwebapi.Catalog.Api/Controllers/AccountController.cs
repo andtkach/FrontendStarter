@@ -1,7 +1,9 @@
-﻿using Jiwebapi.Catalog.Application.Contracts.Cache;
+﻿using Jiwebapi.Catalog.Application.Contracts;
+using Jiwebapi.Catalog.Application.Contracts.Cache;
 using Jiwebapi.Catalog.Application.Contracts.Identity;
 using Jiwebapi.Catalog.Application.Models.Authentication;
 using Jiwebapi.Catalog.Domain.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Jiwebapi.Catalog.Api.Controllers
@@ -13,12 +15,14 @@ namespace Jiwebapi.Catalog.Api.Controllers
         private readonly IAuthenticationService _authenticationService;
         private readonly ISimpleStorageService _simpleStorageService;
         private readonly IObjectStorageService _objectStorageService;
+        private readonly ILoggedInUserService _loggedInUserService;
 
-        public AccountController(IAuthenticationService authenticationService, ISimpleStorageService simpleStorageService, IObjectStorageService objectStorageService)
+        public AccountController(IAuthenticationService authenticationService, ISimpleStorageService simpleStorageService, IObjectStorageService objectStorageService, ILoggedInUserService loggedInUserService)
         {
             _authenticationService = authenticationService;
             _simpleStorageService = simpleStorageService;
             _objectStorageService = objectStorageService;
+            _loggedInUserService = loggedInUserService;
         }
 
         [HttpPost("authenticate")]
@@ -67,6 +71,21 @@ namespace Jiwebapi.Catalog.Api.Controllers
             }
 
             return Unauthorized();
+        }
+
+        [HttpPost("refresh")]
+        [Authorize]
+        public async Task<ActionResult<RefreshResponse>> RefreshAsync(RefreshRequest request)
+        {
+            var userFromContext = _loggedInUserService.UserId;
+
+            if (userFromContext != request.UserId)
+            {
+                return Unauthorized();
+            }       
+
+            var result = await _authenticationService.RefreshAsync(request);
+            return Ok(result);
         }
     }
 }

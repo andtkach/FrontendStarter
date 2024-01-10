@@ -25,10 +25,6 @@ await app.ResetMessageDatabaseAsync();
 await app.ResetIdentityDatabaseAsync();
 await app.SeedUsersAsync();
 
-VecinoClient.VecinoReporter
-    .ReportMessage(app.Logger, $"JI Web API application version 1.0 started on {Environment.MachineName} at {DateTime.UtcNow}");
-
-
 app.Run();
 
 public partial class Program { }

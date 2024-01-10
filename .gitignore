@@ -397,8 +397,9 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-src/docker/data-postgres-volume
+src/data/data-postgres-volume
 
-src/docker/postgres-data
+src/data/postgres-data
 
-src/docker/data-rabbitmq-volume
+src/data/data-rabbitmq-volume
+

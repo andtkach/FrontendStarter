@@ -1,52 +1,43 @@
-using api.Data;
-using API.Data;
+using API.Controllers;
 using API.DTOs;
-using API.Entities;
-using API.Extensions;
-using API.Services;
+using BFF.Services;
+using BFF.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
-namespace API.Controllers;
+namespace BFF.Controllers;
 
 public class AccountController : BaseApiController
 {
-    private readonly TokenService _tokenService;
-    
-    public AccountController(TokenService tokenService)
+    private readonly IAuthService _authService;
+    private readonly ICurrentUserService _currentUserService;
+
+    public AccountController(IAuthService authService, ICurrentUserService currentUserService)
     {
-        _tokenService = tokenService;
+        _authService = authService;
+        _currentUserService = currentUserService;
     }
 
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
-        if (loginDto == null || loginDto.Username != "admin")
-            return Unauthorized();
-
-        return new UserDto
-        {
-            Email = DemoData.UserEmail,
-            Token = _tokenService.GenerateToken(),
-        };
+        var result = await _authService.Login(loginDto);
+        return result;
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult> RegisterUser(RegisterDto registerDto)
+    public async Task<ActionResult<UserDto>> RegisterUser(RegisterDto registerDto)
     {
-        return StatusCode(201);
+        var result = await _authService.Register(registerDto);
+        return result;
     }
 
     [Authorize]
-    [HttpGet("currentUser")]
-    public async Task<ActionResult<UserDto>> GetCurrentUser()
+    [HttpGet("currentUser/{code}")]
+    public async Task<ActionResult<UserDto>> GetCurrentUser(string code)
     {
-        return new UserDto
-        {
-            Email = DemoData.UserEmail,
-            Token = _tokenService.GenerateToken(),
-        };
+        var result = await _authService.Refresh(new RefreshDto() { Code = code, Token = _currentUserService.Token });
+        return result;
     }
+
 }

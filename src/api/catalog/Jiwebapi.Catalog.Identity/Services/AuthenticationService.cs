@@ -98,6 +98,35 @@ namespace Jiwebapi.Catalog.Identity.Services
             }
         }
 
+        public async Task<RefreshResponse> RefreshAsync(RefreshRequest request)
+        {
+            var user = await _userManager.FindByIdAsync(request.UserId);
+
+            if (user == null)
+            {
+                throw new Exception($"User with {request.UserId} not found.");
+            }
+
+            if (string.IsNullOrEmpty(request.Code))
+            {
+                throw new Exception($"Code is empty.");
+            }
+
+            //// Check Code here
+
+            JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
+
+            RefreshResponse response = new RefreshResponse
+            {
+                Id = user.Id,
+                Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
+                Email = user.Email ?? "Unknown",
+                UserName = user.UserName!
+            };
+
+            return response;
+        }
+
         private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)
         {
             var userClaims = await _userManager.GetClaimsAsync(user);
