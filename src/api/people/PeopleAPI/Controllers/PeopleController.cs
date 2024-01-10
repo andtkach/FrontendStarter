@@ -24,7 +24,7 @@ namespace PeopleAPI.Controllers
             return people;
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<PersonDetails> GetPersonByIdAsync(int id)
         {
             var details = await _mediator.Send(new GetPersonByIdQuery() { Id = id });
@@ -54,7 +54,7 @@ namespace PeopleAPI.Controllers
             return isUpdated;
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<int> DeletePersonAsync(int id)
         {
             return await _mediator.Send(new DeletePersonCommand() { Id = id });
