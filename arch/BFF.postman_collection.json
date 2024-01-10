@@ -1,0 +1,332 @@
+{
+	"info": {
+		"_postman_id": "24f9b684-9493-44bf-972c-36cbce43837d",
+		"name": "BFF",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12174279"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 and have user\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"user-id\", jsonData.id);\r",
+									"    pm.collectionVariables.set(\"user-email\", jsonData.email);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{$randomUserName}}\",\r\n  \"password\": \"P@ssw0rd\",\r\n  \"email\": \"{{$randomEmail}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bff-url}}/account/register",
+							"host": [
+								"{{bff-url}}"
+							],
+							"path": [
+								"account",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 and have user\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"user-id\", jsonData.id);\r",
+									"    pm.collectionVariables.set(\"user-email\", jsonData.email);\r",
+									"    pm.collectionVariables.set(\"user-token\", jsonData.token);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"{{user-email}}\",\r\n  \"password\": \"P@ssw0rd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bff-url}}/account/login",
+							"host": [
+								"{{bff-url}}"
+							],
+							"path": [
+								"account",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 and have user\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.collectionVariables.set(\"user-id\", jsonData.id);\r",
+									"    pm.collectionVariables.set(\"user-email\", jsonData.email);\r",
+									"    pm.collectionVariables.set(\"user-token\", jsonData.token);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{bff-url}}/account/currentUser/SECRET",
+							"host": [
+								"{{bff-url}}"
+							],
+							"path": [
+								"account",
+								"currentUser",
+								"SECRET"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{bff-url}}/category/all",
+							"host": [
+								"{{bff-url}}"
+							],
+							"path": [
+								"category",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{bff-url}}/category/one/10788d2f-8003-43c1-92a4-edc76a7c5dde",
+							"host": [
+								"{{bff-url}}"
+							],
+							"path": [
+								"category",
+								"one",
+								"10788d2f-8003-43c1-92a4-edc76a7c5dde"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomNoun}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bff-url}}/category",
+							"host": [
+								"{{bff-url}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"categoryId\": \"10788d2f-8003-43c1-92a4-edc76a7c5dde\",\r\n    \"name\": \"{{$randomNoun}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bff-url}}/category",
+							"host": [
+								"{{bff-url}}"
+							],
+							"path": [
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{bff-url}}/category/10788d2f-8003-43c1-92a4-edc76a7c5dde",
+							"host": [
+								"{{bff-url}}"
+							],
+							"path": [
+								"category",
+								"10788d2f-8003-43c1-92a4-edc76a7c5dde"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "People",
+			"item": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "bff-url",
+			"value": "https://localhost:7011/api",
+			"type": "string"
+		},
+		{
+			"key": "user-id",
+			"value": ""
+		},
+		{
+			"key": "user-email",
+			"value": ""
+		},
+		{
+			"key": "user-token",
+			"value": ""
+		}
+	]
+}
