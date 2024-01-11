@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using BFF.Services.Auth;
 using BFF.Services.Category;
+using BFF.Services.People;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +28,11 @@ builder.Services.AddHttpClient<IAuthService, AuthService>(
 builder.Services.AddHttpClient<ICategoryService, CategoryService>(
     (provider, client) => {
         client.BaseAddress = new Uri(provider.GetService<IConfiguration>()?["ApiConfigs:Category:Uri"] ?? throw new InvalidOperationException("Missing category config"));
+    });
+
+builder.Services.AddHttpClient<IPeopleService, PeopleService>(
+    (provider, client) => {
+        client.BaseAddress = new Uri(provider.GetService<IConfiguration>()?["ApiConfigs:People:Uri"] ?? throw new InvalidOperationException("Missing people config"));
     });
 
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);

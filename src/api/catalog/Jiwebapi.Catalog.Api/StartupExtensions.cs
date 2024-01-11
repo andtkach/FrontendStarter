@@ -61,7 +61,7 @@ namespace Jiwebapi.Catalog.Api
             }
 
 #pragma warning disable S125
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 #pragma warning restore S125
             //app.UseRouting();
             
@@ -69,13 +69,9 @@ namespace Jiwebapi.Catalog.Api
 
             app.UseHistory();
             app.UseCustomExceptionHandler();
-
             app.UseCors("Open");
-
             app.UseAuthorization();
-
             app.MapControllers();
-
             return app;
 
         }

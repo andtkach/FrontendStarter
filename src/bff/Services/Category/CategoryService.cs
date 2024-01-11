@@ -18,22 +18,51 @@ namespace BFF.Services.Category
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _currentUserService.Token);
         }
 
-        public async Task<CategoriesResponse> GetAll()
+        public async Task<DTO.Categories> GetAll()
         {
             HttpResponseMessage response = await _client.GetAsync("api/category/all");
-            return await response.ReadContentAs<CategoriesResponse>();
+            var result = await response.ReadContentAs<CategoriesResponse>();
+
+            var data = new DTO.Categories()
+            {
+                Result = new List<DTO.Category>(),
+                PageNumber = result.PageNumber,
+                PageSize = result.PageSize,
+                TotalPages = result.TotalPages,
+            };
+
+            foreach (var item in result.Result)
+            {
+                data.Result.Add(new DTO.Category()
+                {
+                    Id = item.CategoryId,
+                    Name = item.Name
+                });
+            }
+
+            return data;
         }
 
-        public async Task<CategoryResponse> GetOne(Guid id)
+        public async Task<DTO.Category> GetOne(Guid id)
         {
             HttpResponseMessage response = await _client.GetAsync($"api/category/{id}");
-            return await response.ReadContentAs<CategoryResponse>();
+            var result = await response.ReadContentAs<CategoryResponse>();
+            return new DTO.Category()
+            {
+                Id = result.CategoryId,
+                Name = result.Name
+            };
         }
 
-        public async Task<CreateCategoryResponse> Create(CreateCategoryRequest item)
+        public async Task<DTO.Category> Create(CreateCategory item)
         {
+            var createItem = new CreateCategoryRequest()
+            {
+                Name = item.Name
+            };
+
             using StringContent content = new(
-                JsonSerializer.Serialize(item),
+                JsonSerializer.Serialize(createItem),
                 Encoding.UTF8,
                 "application/json");
 
@@ -44,13 +73,23 @@ namespace BFF.Services.Category
                 throw new InvalidOperationException("Error in create method");
             }
 
-            return result;
+            return new DTO.Category()
+            {
+                Id = result.Category.CategoryId,
+                Name = result.Category.Name
+            };
         }
 
-        public async Task Update(UpdateCategoryRequest item)
+        public async Task Update(UpdateCategory item)
         {
+            var updateItem = new UpdateCategoryRequest()
+            {
+                CategoryId = item.Id,
+                Name = item.Name
+            };
+
             using StringContent content = new(
-                JsonSerializer.Serialize(item),
+                JsonSerializer.Serialize(updateItem),
                 Encoding.UTF8,
                 "application/json");
 

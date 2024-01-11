@@ -2,6 +2,6 @@
 {
     public class CreateCategoryResponse
     {
-        public Category Category { get; set; }
+        public CategoryResponse Category { get; set; }
     }
 }

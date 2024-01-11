@@ -22,12 +22,14 @@ namespace BFF.Services.People
         public async Task<List<PersonDetails>> GetAll()
         {
             HttpResponseMessage response = await _client.GetAsync("api/people");
+            response.EnsureSuccessStatusCode();
             return await response.ReadContentAs<List<PersonDetails>>();
         }
 
         public async Task<PersonDetails> GetOne(int id)
         {
             HttpResponseMessage response = await _client.GetAsync($"api/people/{id}");
+            response.EnsureSuccessStatusCode();
             return await response.ReadContentAs<PersonDetails>();
         }
 
@@ -38,8 +40,9 @@ namespace BFF.Services.People
                 Encoding.UTF8,
                 "application/json");
 
-            var resultMessage = await _client.PostAsync($"api/people", content);
-            var result = await resultMessage.Content.ReadFromJsonAsync<PersonDetails>();
+            var response = await _client.PostAsync($"api/people", content);
+            response.EnsureSuccessStatusCode();
+            var result = await response.Content.ReadFromJsonAsync<PersonDetails>();
             if (result == null)
             {
                 throw new InvalidOperationException("Error in create method");
@@ -55,12 +58,14 @@ namespace BFF.Services.People
                 Encoding.UTF8,
                 "application/json");
 
-            await _client.PutAsync($"api/people", content);
+            var response = await _client.PutAsync($"api/people", content);
+            response.EnsureSuccessStatusCode();
         }
 
         public async Task Delete(int id)
         {
-            await _client.DeleteAsync($"api/people/{id}");
+            var response = await _client.DeleteAsync($"api/people/{id}");
+            response.EnsureSuccessStatusCode();
         }
     }
 }

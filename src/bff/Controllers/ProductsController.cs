@@ -45,7 +45,7 @@ public class ProductsController : BaseApiController
         return product;
     }
     
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<Product>> CreateProduct([FromForm] CreateProductDto productDto)
     {
@@ -60,7 +60,7 @@ public class ProductsController : BaseApiController
         return BadRequest(new ProblemDetails { Title = "Problem creating new product" });
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     [HttpPut]
     public async Task<ActionResult<Product>> UpdateProduct([FromForm]UpdateProductDto productDto)
     {
@@ -77,7 +77,7 @@ public class ProductsController : BaseApiController
         return BadRequest(new ProblemDetails { Title = "Problem updating product" });
     }
 
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteProduct(int id)
     {

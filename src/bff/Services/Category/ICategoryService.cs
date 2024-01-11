@@ -4,13 +4,13 @@ namespace BFF.Services.Category
 {
     public interface ICategoryService
     {
-        Task<CategoriesResponse> GetAll();
+        Task<DTO.Categories> GetAll();
 
-        Task<CategoryResponse> GetOne(Guid id);
+        Task<DTO.Category> GetOne(Guid id);
 
-        Task<CreateCategoryResponse> Create(CreateCategoryRequest item);
+        Task<DTO.Category> Create(CreateCategory item);
 
-        Task Update(UpdateCategoryRequest item);
+        Task Update(UpdateCategory item);
 
         Task Delete(Guid id);
 
