@@ -59,13 +59,31 @@ export default function Header({ handleThemeChange, darkMode }: Props) {
                             {title.toUpperCase()}
                         </ListItem>
                     ))}
-                    {user && user.roles?.includes('Admin') &&
+                    {user &&
                     <ListItem
                         component={NavLink}
                         to={'/inventory'}
                         sx={navLinkStyles}
                     >
                         INVENTORY
+                    </ListItem>}
+
+                    {user &&
+                    <ListItem
+                        component={NavLink}
+                        to={'/category'}
+                        sx={navLinkStyles}
+                    >
+                        CATEGORY
+                    </ListItem>}
+
+                    {user &&
+                    <ListItem
+                        component={NavLink}
+                        to={'/people'}
+                        sx={navLinkStyles}
+                    >
+                        PEOPLE
                     </ListItem>}
                 </List>
 

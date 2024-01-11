@@ -66,12 +66,34 @@ const requests = {
     }).then(responseBody),
     putForm: (url: string, data: FormData) => axios.put(url, data, {
         headers: {'Content-type': 'multipart/form-data'}
-    }).then(responseBody)
+    }).then(responseBody),
+    postJson: (url: string, data: any) => axios.post(url, data, {
+        headers: {'Content-type': 'application/json'}
+    }).then(responseBody),
+    putJson: (url: string, data: any) => axios.put(url, data, {
+        headers: {'Content-type': 'application/json'}
+    }).then(responseBody),
 }
 
 const Catalog = {
     list: (params: URLSearchParams) => requests.get('products', params),
     details: (id: number) => requests.get(`products/${id}`),
+}
+
+const Category = {
+    list: (params: URLSearchParams) => requests.get('category/all', params),
+    details: (id: string) => requests.get(`category/one/${id}`),
+    createCategory: (category: any) => requests.postJson('category', JSON.stringify(category)),
+    updateCategory: (category: any) => requests.putJson('category', JSON.stringify(category)),
+    deleteCategory: (id: string) => requests.del(`category/${id}`)
+}
+
+const Person = {
+    list: (params: URLSearchParams) => requests.get('people/all', params),
+    details: (id: string) => requests.get(`people/one/${id}`),
+    createPerson: (person: any) => requests.postJson('people', JSON.stringify(person)),
+    updatePerson: (person: any) => requests.putJson('people', JSON.stringify(person)),
+    deletePerson: (id: number) => requests.del(`people/${id}`)
 }
 
 const Info = {
@@ -81,9 +103,8 @@ const Info = {
 const Account = {
     login: (values: any) => requests.post('account/login', values),
     register: (values: any) => requests.post('account/register', values),
-    currentUser: () => requests.get('account/currentUser'),
+    currentUser: () => requests.get('account/currentUser/SECRET'),
 }
-
 
 function createFormData(item: any) {
     const formData = new FormData();
@@ -103,7 +124,9 @@ const agent = {
     Catalog,
     Info,
     Account,
-    Admin
+    Admin,
+    Category,
+    Person,
 }
 
 export default agent;

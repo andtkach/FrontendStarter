@@ -7,6 +7,8 @@ import Login from '../../features/account/Login';
 import Register from '../../features/account/Register';
 import RequireAuth from './RequireAuth';
 import Inventory from '../../features/admin/Inventory';
+import Category from '../../features/category/Category';
+import People from '../../features/person/Person';
 
 export const router = createBrowserRouter(([
     {
@@ -15,9 +17,13 @@ export const router = createBrowserRouter(([
         children: [
             {
                 // admin routes
-                element: <RequireAuth roles={['Admin']} />, children: [
-                    { path: '/inventory', element: <Inventory /> },
-                ]
+                element: <RequireAuth />, children: [{ path: '/inventory', element: <Inventory /> }, ]
+            },
+            {
+                element: <RequireAuth />, children: [{ path: '/category', element: <Category /> }, ]
+            },
+            {
+                element: <RequireAuth />, children: [{ path: '/people', element: <People /> }, ]
             },
             { path: 'catalog', element: <Catalog /> },
             { path: 'catalog/:id', element: <ProductDetails /> },
