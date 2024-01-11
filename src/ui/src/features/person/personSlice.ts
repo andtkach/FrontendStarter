@@ -13,8 +13,7 @@ interface PersonState {
 
 const personsAdapter = createEntityAdapter<Person>();
 
-function getAxiosParams(personParams: PersonParams) {
-    console.log(personParams);
+function getAxiosParams() {
     const params = new URLSearchParams();
     return params;
 }
@@ -22,7 +21,7 @@ function getAxiosParams(personParams: PersonParams) {
 export const fetchPersonsAsync = createAsyncThunk<Person[], void, {state: RootState}>(
     'person/fetchPersonsAsync',
     async (_, thunkAPI) => {
-        const params = getAxiosParams(thunkAPI.getState().person.personParams);
+        const params = getAxiosParams();
         try {
             const response = await agent.Person.list(params);
             thunkAPI.dispatch(setMetaData(response.metaData));

@@ -403,3 +403,5 @@ src/data/postgres-data
 
 src/data/data-rabbitmq-volume
 
+
+arch/.$Diagram.drawio.bkp
