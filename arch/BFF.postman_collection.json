@@ -182,14 +182,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{bff-url}}/category/one/10788d2f-8003-43c1-92a4-edc76a7c5dde",
+							"raw": "{{bff-url}}/category/one/3047fb7d-c147-49b1-ab74-6172dac9f243",
 							"host": [
 								"{{bff-url}}"
 							],
 							"path": [
 								"category",
 								"one",
-								"10788d2f-8003-43c1-92a4-edc76a7c5dde"
+								"3047fb7d-c147-49b1-ab74-6172dac9f243"
 							]
 						}
 					},
@@ -240,7 +240,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"categoryId\": \"10788d2f-8003-43c1-92a4-edc76a7c5dde\",\r\n    \"name\": \"{{$randomNoun}}\"\r\n}",
+							"raw": "{\r\n    \"id\": \"3047fb7d-c147-49b1-ab74-6172dac9f243\",\r\n    \"name\": \"{{$randomNoun}}\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -287,7 +287,145 @@
 		},
 		{
 			"name": "People",
-			"item": []
+			"item": [
+				{
+					"name": "Get all",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{bff-url}}/people/all",
+							"host": [
+								"{{bff-url}}"
+							],
+							"path": [
+								"people",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{bff-url}}/people/one/1",
+							"host": [
+								"{{bff-url}}"
+							],
+							"path": [
+								"people",
+								"one",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"address\": \"{{$randomStreetAddress}}\",\r\n    \"age\": {{$randomInt}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bff-url}}/people",
+							"host": [
+								"{{bff-url}}"
+							],
+							"path": [
+								"people"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user-token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"address\": \"{{$randomStreetAddress}} - UPDATED\",\r\n    \"age\": {{$randomInt}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{bff-url}}/people",
+							"host": [
+								"{{bff-url}}"
+							],
+							"path": [
+								"people"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{user-token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{bff-url}}/people/1",
+							"host": [
+								"{{bff-url}}"
+							],
+							"path": [
+								"people",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
