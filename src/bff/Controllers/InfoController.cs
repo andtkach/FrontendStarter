@@ -1,6 +1,7 @@
+using API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers;
+namespace BFF.Controllers;
 
 public class InfoController : BaseApiController
 {

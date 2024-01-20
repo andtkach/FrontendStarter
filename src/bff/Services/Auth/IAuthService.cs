@@ -1,4 +1,5 @@
 ﻿using API.DTOs;
+using BFF.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BFF.Services.Auth

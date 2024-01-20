@@ -2,46 +2,41 @@
 using System.Text;
 using System.Text.Json;
 using API.DTOs;
+using BFF.Data;
+using BFF.DTOs;
 using BFF.Services.Auth.DTO.Authentication;
 using BFF.Services.Auth.DTO.Refresh;
 using BFF.Services.Auth.DTO.Registration;
 
 namespace BFF.Services.Auth
 {
-    public class AuthService : IAuthService
+    public class AuthService : BaseService,  IAuthService
     {
-        private readonly HttpClient _client;
-        private readonly ICurrentUserService _currentUserService;
+        private readonly ILogger<AuthService> _logger;
 
-        public AuthService(HttpClient client, ICurrentUserService currentUserService)
+        public AuthService(HttpClient client, ICurrentUserService currentUserService,
+            IConfiguration configuration, ILogger<AuthService> logger)
+        : base(client, currentUserService, configuration, logger)
         {
-            _client = client;
-            _currentUserService = currentUserService;
+            _logger = logger;
         }
 
         public async Task<UserDto> Register(RegisterDto data)
         {
-            var request = new RegistrationRequest()
-            {
-                UserName = data.Username,
-                FirstName = "Demo",
-                LastName = "Demo",
-                Email = data.Email,
-                Password = data.Password,
-            };
-
+            _logger.LogInformation("Register call");
+            var request = AuthServiceObjectsBuilder.BuildRegistrationRequest(data);
+            
             using StringContent content = new(
                 JsonSerializer.Serialize(request),
                 Encoding.UTF8,
-                "application/json");
+                Constants.HttpMediaType);
 
-            var resultMessage = await _client.PostAsync($"api/account/register", content);
-            resultMessage.EnsureSuccessStatusCode();
+            AddRequestHeaders();
+            var resultMessage = await Client.PostAsync(Constants.HttpUrlRegister, content);
+            await VerifyResponse(resultMessage);
+
             var result = await resultMessage.Content.ReadFromJsonAsync<RegistrationResponse>();
-            if (result == null)
-            {
-                throw new InvalidOperationException("Error in create register");
-            }
+            VerifyResult(result, "Error in register user");
 
             return new UserDto
             {
@@ -52,62 +47,42 @@ namespace BFF.Services.Auth
 
         public async Task<UserDto> Login(LoginDto data)
         {
-            var request = new AuthenticationRequest()
-            {
-                Email = data.Username,
-                Password = data.Password,
-            };
-
+            _logger.LogInformation("Login call");
+            var request = AuthServiceObjectsBuilder.BuildAuthenticationRequest(data);
+            
             using StringContent content = new(
                 JsonSerializer.Serialize(request),
                 Encoding.UTF8,
-                "application/json");
+                Constants.HttpMediaType);
 
-            var resultMessage = await _client.PostAsync($"api/account/authenticate", content);
-            resultMessage.EnsureSuccessStatusCode();
+            AddRequestHeaders();
+            var resultMessage = await Client.PostAsync(Constants.HttpUrlAuthenticate, content);
+            await VerifyResponse(resultMessage);
             var result = await resultMessage.Content.ReadFromJsonAsync<AuthenticationResponse>();
-            if (result == null)
-            {
-                throw new InvalidOperationException("Error in login user");
-            }
+            VerifyResult(result, "Error in login user");
 
-            return new UserDto
-            {
-                Id = result.Id,
-                Email = result.Email,
-                Token = result.Token,
-            };
+            return AuthServiceObjectsBuilder.BuildUserDto(result);
         }
 
         public async Task<UserDto> Refresh(RefreshDto data)
         {
-            var request = new RefreshRequest()
-            {
-                UserId = _currentUserService.UserId,
-                Code = data.Code,
-            };
-
+            _logger.LogInformation("Refresh call");
+            var request = AuthServiceObjectsBuilder.BuildRefreshRequest(data);
+            
             using StringContent content = new(
                 JsonSerializer.Serialize(request),
                 Encoding.UTF8,
-                "application/json");
+                Constants.HttpMediaType);
 
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", data.Token);
-
-            var resultMessage = await _client.PostAsync($"api/account/refresh", content);
-            resultMessage.EnsureSuccessStatusCode();
+            AddRequestHeaders();
+            AddRequestAuth(data.Token);
+            
+            var resultMessage = await Client.PostAsync(Constants.HttpUrlRefresh, content);
+            await VerifyResponse(resultMessage);
             var result = await resultMessage.Content.ReadFromJsonAsync<RefreshResponse>();
-            if (result == null)
-            {
-                throw new InvalidOperationException("Error in refresh user");
-            }
-
-            return new UserDto
-            {
-                Id = result.Id,
-                Email = result.Email,
-                Token = result.Token,
-            };
+            VerifyResult(result, "Error in refresh user");
+            return AuthServiceObjectsBuilder.BuildUserDto(result);
+            
         }
     }
 }

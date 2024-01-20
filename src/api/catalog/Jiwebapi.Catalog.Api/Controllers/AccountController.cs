@@ -30,7 +30,7 @@ namespace Jiwebapi.Catalog.Api.Controllers
         {
             var result = await _authenticationService.AuthenticateAsync(request);
             var cacheId = await _simpleStorageService.Set($"{result.Email}|{result.Token}");
-            result.CacheId = cacheId;
+            result.Refresh = cacheId;
             return Ok(result);
         }
 
