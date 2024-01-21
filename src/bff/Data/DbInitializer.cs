@@ -1,7 +1,6 @@
-﻿using API.Entities;
-using Microsoft.AspNetCore.Identity;
+﻿using BFF.Entities;
 
-namespace API.Data;
+namespace BFF.Data;
 
 public static class DbInitializer
 {

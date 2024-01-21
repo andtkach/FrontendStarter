@@ -75,7 +75,7 @@ export default function ProductForm({ product, cancelEdit }: Props) {
                     </Grid>
                     <Grid item xs={12}>
                         <Box display='flex' justifyContent='space-between' alignItems='center'>
-                            <AppDropzone control={control} name='file' />
+                            <AppDropzone control={control} name="file" />
                             {watchFile ? (
                                 <img src={watchFile.preview} alt="preview" style={{ maxHeight: 200 }} />
                             ) : (

@@ -1,6 +1,7 @@
 using API.DTOs;
-using API.Entities;
 using AutoMapper;
+using BFF.DTOs;
+using BFF.Entities;
 
 namespace API.RequestHelpers;
 

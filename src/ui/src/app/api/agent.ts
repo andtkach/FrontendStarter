@@ -57,7 +57,7 @@ axios.interceptors.response.use(async response => {
 })
 
 function createFormData(item: any) {
-    let formData = new FormData();
+    const formData = new FormData();
     for (const key in item) {
         formData.append(key, item[key])
     }
@@ -104,6 +104,7 @@ const Person = {
     createPerson: (person: any) => requests.postJson('people', JSON.stringify(person)),
     updatePerson: (person: any) => requests.putJson('people', JSON.stringify(person)),
     deletePerson: (id: number) => requests.del(`people/${id}`)
+}
 
 const TestErrors = {
     get400Error: () => requests.get('buggy/bad-request'),
@@ -116,7 +117,7 @@ const TestErrors = {
 const Basket = {
     get: () => requests.get('basket'),
     addItem: (productId: number, quantity = 1) => requests.post(`basket?productId=${productId}&quantity=${quantity}`, {}),
-    removeItem: (productId: number, quantity = 1) => requests.delete(`basket?productId=${productId}&quantity=${quantity}`)
+    removeItem: (productId: number, quantity = 1) => requests.del(`basket?productId=${productId}&quantity=${quantity}`)
 }
 
 const Account = {
@@ -142,6 +143,10 @@ const Admin = {
     deleteProduct: (id: number) => requests.del(`products/${id}`)
 }
 
+const Info = {
+    getInfo: () => requests.get('info/bff-info'),    
+}
+
 const agent = {
 	Info,
     Catalog,
@@ -150,7 +155,9 @@ const agent = {
     Account,
     Orders,
     Payments,
-    Admin
+    Admin,
+    Category,
+    Person
 }
 
 export default agent;

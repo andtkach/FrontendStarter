@@ -1,9 +1,7 @@
-using API.Entities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using BFF.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Data;
+namespace BFF.Data;
 
 public class DataContext : DbContext
 {
@@ -12,4 +10,10 @@ public class DataContext : DbContext
     }
 
     public DbSet<Product> Products { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        
+    }
 }

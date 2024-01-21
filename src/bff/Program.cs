@@ -1,5 +1,4 @@
 using System.Text;
-using API.Data;
 using API.Middleware;
 using API.RequestHelpers;
 using BFF.Data;
@@ -43,6 +42,8 @@ builder.Services.AddDbContext<DataContext>(opt =>
 
 builder.Services.AddCors();
 builder.Services.AddAuthenticationServices(builder.Configuration);
+
+builder.Services.AddScoped<ImageService>();
 
 var app = builder.Build();
 

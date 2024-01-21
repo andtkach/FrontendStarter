@@ -3,16 +3,15 @@ import AboutPage from "../../features/about/AboutPage";
 import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
 import Inventory from "../../features/admin/Inventory";
-import BasketPage from "../../features/basket/BasketPage";
 import Catalog from "../../features/catalog/Catalog";
 import ProductDetails from "../../features/catalog/ProductDetails";
-import CheckoutWrapper from "../../features/checkout/CheckoutWrapper";
 import ContactPage from "../../features/contact/ContactPage";
-import Orders from "../../features/orders/Orders";
 import NotFound from "../errors/NotFound";
 import ServerError from "../errors/ServerError";
 import App from "../layout/App";
 import RequireAuth from "./RequireAuth";
+import Category from "../../features/category/Category";
+import Person from "../../features/person/Person";
 
 export const router = createBrowserRouter([
     {
@@ -21,8 +20,8 @@ export const router = createBrowserRouter([
         children: [
             // authenticated routes
             {element: <RequireAuth />, children: [
-                {path: 'checkout', element: <CheckoutWrapper />},
-                {path: 'orders', element: <Orders />},
+                // {path: 'checkout', element: <CheckoutWrapper />},
+                // {path: 'orders', element: <Orders />},
             ]},
             // admin routes
             {element: <RequireAuth roles={['Admin']} />, children: [
@@ -33,7 +32,7 @@ export const router = createBrowserRouter([
                 element: <RequireAuth />, children: [{ path: '/category', element: <Category /> }, ]
             },
             {
-                element: <RequireAuth />, children: [{ path: '/people', element: <People /> }, ]
+                element: <RequireAuth />, children: [{ path: '/people', element: <Person /> }, ]
             },
 
             {path: 'catalog', element: <Catalog />},
@@ -42,7 +41,6 @@ export const router = createBrowserRouter([
             {path: 'contact', element: <ContactPage />},
             {path: 'server-error', element: <ServerError />},
             {path: 'not-found', element: <NotFound />},
-            {path: 'basket', element: <BasketPage />},
             {path: 'login', element: <Login />},
             {path: 'register', element: <Register />},
             {path: '*', element: <Navigate replace to='/not-found' />}
