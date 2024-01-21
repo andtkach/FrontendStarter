@@ -1,10 +1,10 @@
+import { LockOutlined } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
-import { Container, Paper, Avatar, Typography, Box, TextField, Grid } from '@mui/material';
+import { Avatar, Box, Container, Grid, Paper, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import agent from '../../app/api/agent';
-import { LockOutlined } from '@mui/icons-material';
 import { toast } from 'react-toastify';
+import agent from '../../app/api/agent';
 
 export default function Register() {
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function Register() {
     function handleApiErrors(errors: any) {
         console.log(errors);
         if (errors) {
-            errors.forEach((error: string) => {
+            errors.forEach((error: string, index: number) => {
                 if (error.includes('Password')) {
                     setError('password', { message: error })
                 } else if (error.includes('Email')) {
@@ -36,7 +36,7 @@ export default function Register() {
                 Register
             </Typography>
             <Box component="form"
-                onSubmit={handleSubmit((data) => agent.Account.register(data)
+                onSubmit={handleSubmit(data => agent.Account.register(data)
                     .then(() => {
                         toast.success('Registration successful - you can now login');
                         navigate('/login');
@@ -48,8 +48,8 @@ export default function Register() {
                     margin="normal"
                     required
                     fullWidth
-                    autoFocus
                     label="Username"
+                    autoFocus
                     {...register('username', { required: 'Username is required' })}
                     error={!!errors.username}
                     helperText={errors?.username?.message as string}
@@ -62,7 +62,7 @@ export default function Register() {
                     {...register('email', { 
                         required: 'Email is required',
                         pattern: {
-                            value: /^\w+[\w-.]*@\w+((-\w+)|(\w*))\.[a-z]{2,3}$/,
+                            value: /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/,
                             message: 'Not a valid email address'
                         }
                     })}
@@ -78,22 +78,21 @@ export default function Register() {
                     {...register('password', { 
                         required: 'password is required',
                         pattern: {
-                            value: /(?=^.{6,10}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$/,
+                            value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
                             message: 'Password does not meet complexity requirements'
-                        } 
+                        }
                     })}
                     error={!!errors.password}
                     helperText={errors?.password?.message as string}
                 />
                 <LoadingButton
-                    loading={isSubmitting}
                     disabled={!isValid}
+                    loading={isSubmitting}
                     type="submit"
                     fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
+                    variant="contained" sx={{ mt: 3, mb: 2 }}
                 >
-                    Sign In
+                    Register
                 </LoadingButton>
                 <Grid container>
                     <Grid item>

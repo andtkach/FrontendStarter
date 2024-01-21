@@ -4,7 +4,7 @@ import { useController, UseControllerProps } from "react-hook-form";
 interface Props extends UseControllerProps {
     label: string;
     multiline?: boolean;
-    rows?: number;
+    rows?: number; 
     type?: string;
 }
 

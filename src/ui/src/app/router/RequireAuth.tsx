@@ -11,7 +11,6 @@ export default function RequireAuth({roles}: Props) {
     const location = useLocation();
 
     if (!user) {
-        toast.error('You need to be logged in to do that!');
         return <Navigate to='/login' state={{from: location}} />
     }
 

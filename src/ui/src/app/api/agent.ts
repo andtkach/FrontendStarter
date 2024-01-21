@@ -56,6 +56,14 @@ axios.interceptors.response.use(async response => {
     return Promise.reject(error.response);
 })
 
+function createFormData(item: any) {
+    let formData = new FormData();
+    for (const key in item) {
+        formData.append(key, item[key])
+    }
+    return formData;
+}
+
 const requests = {
     get: (url: string, params?: URLSearchParams) => axios.get(url, {params}).then(responseBody),
     post: (url: string, body: object) => axios.post(url, body).then(responseBody),
@@ -73,11 +81,13 @@ const requests = {
     putJson: (url: string, data: any) => axios.put(url, data, {
         headers: {'Content-type': 'application/json'}
     }).then(responseBody),
+
 }
 
 const Catalog = {
     list: (params: URLSearchParams) => requests.get('products', params),
     details: (id: number) => requests.get(`products/${id}`),
+    fetchFilters: () => requests.get('products/filters')
 }
 
 const Category = {
@@ -94,24 +104,36 @@ const Person = {
     createPerson: (person: any) => requests.postJson('people', JSON.stringify(person)),
     updatePerson: (person: any) => requests.putJson('people', JSON.stringify(person)),
     deletePerson: (id: number) => requests.del(`people/${id}`)
+
+const TestErrors = {
+    get400Error: () => requests.get('buggy/bad-request'),
+    get401Error: () => requests.get('buggy/unauthorised'),
+    get404Error: () => requests.get('buggy/not-found'),
+    get500Error: () => requests.get('buggy/server-error'),
+    getValidationError: () => requests.get('buggy/validation-error')
 }
 
-const Info = {
-    getInfo: () => requests.get('info/bff-info'),    
+const Basket = {
+    get: () => requests.get('basket'),
+    addItem: (productId: number, quantity = 1) => requests.post(`basket?productId=${productId}&quantity=${quantity}`, {}),
+    removeItem: (productId: number, quantity = 1) => requests.delete(`basket?productId=${productId}&quantity=${quantity}`)
 }
 
 const Account = {
     login: (values: any) => requests.post('account/login', values),
     register: (values: any) => requests.post('account/register', values),
     currentUser: () => requests.get('account/currentUser/SECRET'),
+    fetchAddress: () => requests.get('account/savedAddress')
 }
 
-function createFormData(item: any) {
-    const formData = new FormData();
-    for (const key in item) {
-        formData.append(key, item[key])
-    }
-    return formData;
+const Orders = {
+    list: () => requests.get('orders'),
+    fetch: (id: number) => requests.get(`orders/${id}`),
+    create: (values: any) => requests.post('orders', values)
+}
+
+const Payments = {
+    createPaymentIntent: () => requests.post('payments', {})
 }
 
 const Admin = {
@@ -121,12 +143,14 @@ const Admin = {
 }
 
 const agent = {
+	Info,
     Catalog,
-    Info,
+    TestErrors,
+    Basket,
     Account,
-    Admin,
-    Category,
-    Person,
+    Orders,
+    Payments,
+    Admin
 }
 
 export default agent;

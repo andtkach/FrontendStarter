@@ -1,19 +1,20 @@
-import { Edit, Delete } from '@mui/icons-material';
-import { Box, Typography, Button, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
-import useProducts from '../../app/hooks/useProducts';
-import AppPagination from '../../app/components/AppPagination';
-import { useAppDispatch } from '../../app/store/configureStore';
-import { removeProduct, setPageNumber } from '../catalog/catalogSlice';
-import { useState } from 'react';
-import ProductForm from './ProductForm';
-import { Product } from '../../app/models/product';
-import agent from '../../app/api/agent';
-import { LoadingButton } from '@mui/lab';
+import { Edit, Delete } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
+import { Box, Typography, Button, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
+import { useState } from "react";
+import agent from "../../app/api/agent";
+import AppPagination from "../../app/components/AppPagination";
+import useProducts from "../../app/hooks/useProducts";
+import { Product } from "../../app/models/product";
+import { useAppDispatch } from "../../app/store/configureStore";
+import { currencyFormat } from "../../app/util/util";
+import { removeProduct, setPageNumber } from "../catalog/catalogSlice";
+import ProductForm from "./ProductForm";
 
 export default function Inventory() {
-    const { products, metaData } = useProducts();
-    const [editMode, setEditMode] = useState(false);
+    const {products, metaData} = useProducts();
     const dispatch = useAppDispatch();
+    const [editMode, setEditMode] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);
     const [loading, setLoading] = useState(false);
     const [target, setTarget] = useState(0);
@@ -21,11 +22,6 @@ export default function Inventory() {
     function handleSelectProduct(product: Product) {
         setSelectedProduct(product);
         setEditMode(true);
-    }
-
-    function cancelEdit() {
-        if (selectedProduct) setSelectedProduct(undefined);
-        setEditMode(false);
     }
 
     function handleDeleteProduct(id: number) {
@@ -37,19 +33,18 @@ export default function Inventory() {
             .finally(() => setLoading(false))
     }
 
-    if (editMode) return <ProductForm cancelEdit={cancelEdit} product={selectedProduct} />
+    function cancelEdit() {
+        if (selectedProduct) setSelectedProduct(undefined);
+        setEditMode(false);
+    }
+
+    if (editMode) return <ProductForm product={selectedProduct} cancelEdit={cancelEdit} />
 
     return (
         <>
             <Box display='flex' justifyContent='space-between'>
                 <Typography sx={{ p: 2 }} variant='h4'>Inventory</Typography>
-                <Button
-                    sx={{ m: 2 }}
-                    size='large' variant='contained'
-                    onClick={() => setEditMode(true)}
-                >
-                    Create
-                </Button>
+                <Button onClick={() => setEditMode(true)} sx={{ m: 2 }} size='large' variant='contained'>Create</Button>
             </Box>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -57,6 +52,10 @@ export default function Inventory() {
                         <TableRow>
                             <TableCell>#</TableCell>
                             <TableCell align="left">Product</TableCell>
+                            <TableCell align="right">Price</TableCell>
+                            <TableCell align="center">Type</TableCell>
+                            <TableCell align="center">Brand</TableCell>
+                            <TableCell align="center">Quantity</TableCell>
                             <TableCell align="right"></TableCell>
                         </TableRow>
                     </TableHead>
@@ -71,31 +70,31 @@ export default function Inventory() {
                                 </TableCell>
                                 <TableCell align="left">
                                     <Box display='flex' alignItems='center'>
+                                        <img src={product.pictureUrl} alt={product.name} style={{ height: 50, marginRight: 20 }} />
                                         <span>{product.name}</span>
                                     </Box>
                                 </TableCell>
+                                <TableCell align="right">{currencyFormat(product.price)}</TableCell>
+                                <TableCell align="center">{product.type}</TableCell>
+                                <TableCell align="center">{product.brand}</TableCell>
+                                <TableCell align="center">{product.quantityInStock}</TableCell>
                                 <TableCell align="right">
-                                    <Button
-                                        startIcon={<Edit />}
-                                        onClick={() => handleSelectProduct(product)}
-                                    />
-                                    <LoadingButton
-                                        loading={loading && target === product.id}
-                                        startIcon={<Delete />} color='error'
-                                        onClick={() => handleDeleteProduct(product.id)}
-                                    />
+                                    <Button onClick={() => handleSelectProduct(product)} startIcon={<Edit />} />
+                                    <LoadingButton 
+                                        loading={loading && target === product.id} 
+                                        onClick={() => handleDeleteProduct(product.id)} 
+                                        startIcon={<Delete />} color='error' />
                                 </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
-            {metaData &&
-                <Box sx={{ pt: 2 }}>
-                    <AppPagination
-                        metaData={metaData}
-                        onPageChange={(page: number) => dispatch(setPageNumber({ pageNumber: page }))}
-                    />
+            {metaData && 
+                <Box sx={{pt: 2}}>
+                    <AppPagination 
+                        metaData={metaData} 
+                        onPageChange={(page: number) => dispatch(setPageNumber({pageNumber: page}))} />
                 </Box>
             }
         </>

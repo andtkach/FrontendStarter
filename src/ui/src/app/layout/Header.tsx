@@ -1,16 +1,19 @@
-import { AppBar,  Box,  List, ListItem, Switch, Toolbar, Typography } from "@mui/material";
-import {  NavLink } from 'react-router-dom';
-import { useAppSelector } from '../store/configureStore';
-import SignedInMenu from './SignedInMenu';
+import { ShoppingCart } from "@mui/icons-material";
+import { AppBar, Badge, IconButton, List, ListItem, Switch, Toolbar, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import { Link, NavLink } from "react-router-dom";
+import { useAppSelector } from "../store/configureStore";
+import SignedInMenu from "./SignedInMenu";
 
 const midLinks = [
     { title: 'catalog', path: '/catalog' },
-    { title: 'about', path: '/about' },    
+    { title: 'about', path: '/about' },
+    { title: 'contact', path: '/contact' },
 ]
 
 const rightLinks = [
     { title: 'login', path: '/login' },
-    { title: 'register', path: '/register' },
+    { title: 'register', path: '/register' }
 ]
 
 const navLinkStyles = {
@@ -31,15 +34,16 @@ interface Props {
 }
 
 export default function Header({ handleThemeChange, darkMode }: Props) {
+    const { basket } = useAppSelector(state => state.basket);
     const { user } = useAppSelector(state => state.account);
-    
+    const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0);
+
     return (
         <AppBar position='static'>
             <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
                 <Box display='flex' alignItems='center'>
-                    <Typography
-                        variant='h6'
-                        component={NavLink}
+                    <Typography variant="h6" component={NavLink}
                         to='/'
                         sx={navLinkStyles}
                     >
@@ -59,7 +63,7 @@ export default function Header({ handleThemeChange, darkMode }: Props) {
                             {title.toUpperCase()}
                         </ListItem>
                     ))}
-                    {user &&
+                    {user && user.roles?.includes('Admin') &&
                     <ListItem
                         component={NavLink}
                         to={'/inventory'}
@@ -67,6 +71,7 @@ export default function Header({ handleThemeChange, darkMode }: Props) {
                     >
                         INVENTORY
                     </ListItem>}
+
 
                     {user &&
                     <ListItem
@@ -85,9 +90,17 @@ export default function Header({ handleThemeChange, darkMode }: Props) {
                     >
                         PEOPLE
                     </ListItem>}
+
+
                 </List>
 
-                <Box display='flex' alignItems='center'>                    
+                <Box display='flex' alignItems='center'>
+                    <IconButton component={Link} to='/basket' size='large' edge='start' color='inherit' sx={{ mr: 2 }}>
+                        <Badge badgeContent={itemCount} color="secondary">
+                            <ShoppingCart />
+                        </Badge>
+                    </IconButton>
+
                     {user ? (
                         <SignedInMenu />
                     ) : (
@@ -104,9 +117,7 @@ export default function Header({ handleThemeChange, darkMode }: Props) {
                             ))}
                         </List>
                     )}
-
                 </Box>
-
             </Toolbar>
         </AppBar>
     )
