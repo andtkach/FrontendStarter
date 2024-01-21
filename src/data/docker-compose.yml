@@ -1,0 +1,106 @@
+version: "3.8"
+
+services:
+  postgrebff:
+    container_name: postgrebff
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5433:5432
+    volumes: 
+      - ./postgres-data:/var/lib/postgresql/data
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    networks:
+      - devnet
+  
+  seq:
+    container_name: seq
+    image: datalust/seq:latest
+    ports:
+      - 8082:80
+      - 5341:5341
+    environment:      
+      - ACCEPT_EULA=Y 
+    networks:
+      - devnet
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - 6375:6379
+    networks:
+      - devnet
+    volumes:
+      - ./redis-data:/dataredis/db
+
+  sqlserver:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: sqlserver
+    command: /bin/bash ./entrypoint.sh
+    ports:
+      - 1435:1433
+    environment:
+      SA_PASSWORD: "Password01!"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - mssqlsystem:/var/opt/mssql
+      - mssqluser:/var/opt/sqlserver
+      - ./sql/mssql/entrypoint.sh:/entrypoint.sh
+      - ./sql/mssql/db-init.sh:/db-init.sh
+      - ./sql/mssql/db-init.sql:/db-init.sql
+    networks:
+      - devnet
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=admin      
+      - POSTGRES_PASSWORD=postgrespw
+    ports:
+      - '5435:5432'
+    volumes:
+      - ./data-postgres-volume:/var/lib/postgresql/data
+      - ./sql/postgres-init.sql:/docker-entrypoint-initdb.d/postgres-init.sql
+    networks:
+      - devnet
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: queue
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - devnet
+    volumes:
+      - ./data-rabbitmq-volume:/var/lib/rabbitmq
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=mongopw
+    ports:
+      - 27018:27017
+    volumes:
+      - ./data-mongo-volume:/var/lib/mongodb/data
+    networks:
+      - devnet
+
+volumes:
+  mssqlsystem:
+    driver: local
+  mssqluser:
+    driver: local
+
+networks:
+  devnet:
+    driver: bridge
+    name: devnet_network

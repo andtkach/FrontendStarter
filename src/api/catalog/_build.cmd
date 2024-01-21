@@ -1,0 +1,1 @@
+dotnet build Jiwebapi.Catalog.sln
