@@ -83,6 +83,8 @@ public static class StartupExtensions
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
+                    ValidIssuer = authority,
+                    ValidAudience = audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(DemoData.TestSecret))
                 };
                 opt.Events = new JwtBearerEvents()
